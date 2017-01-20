@@ -8,10 +8,8 @@ dec: 	dec.c
 	gcc $(CFLAG) dec.c -o dec
 
 sig:	sig.c
-	gcc $(CFLAG) sig.c -o test
-run:	test
-	./test
+	gcc $(CFLAG) sig.c -o sig
+	
 clean:
-	rm enc dec
-	rm test
+	rm enc dec sig
 
