@@ -85,8 +85,9 @@ int main(int argc, char *argv[])
 
     crypto_box_beforenm(k, alicepk, bobsk);
 
-  while (clen= fread(c, 1, BUFSIZE + crypto_box_ZEROBYTES, fp))
+  while (clen= fread(c + crypto_box_BOXZEROBYTES, 1, BUFSIZE + crypto_box_ZEROBYTES - crypto_box_BOXZEROBYTES, fp))
     {
+      clen += crypto_box_BOXZEROBYTES;
       crypto_box_open_afternm(m,c,clen,nonce,k);
       fwrite(m+crypto_box_ZEROBYTES, 1, clen - crypto_box_ZEROBYTES, fpout);
       sodium_increment(nonce, crypto_box_NONCEBYTES);

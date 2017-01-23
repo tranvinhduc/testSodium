@@ -1,7 +1,7 @@
 #include<sodium.h>
 #include<stdio.h>
 #include <string.h>
-
+#include "print.h"
 #define BUFSIZE 100000
 unsigned char alicesk[32] = {
   0x77,0x07,0x6d,0x0a,0x73,0x18,0xa5,0x7d
@@ -45,7 +45,7 @@ unsigned char signatureAlicepk[32 + crypto_sign_BYTES] = {
   ,0xeb,0xa4,0xa9,0x8e,0xaa,0x9b,0x4e,0x6a	
 };
 
-unsigned char nonce[24];
+unsigned char nonce[24] = {0};
 
 unsigned char m[BUFSIZE + crypto_box_ZEROBYTES] = {0};
 
@@ -96,19 +96,18 @@ int main(int argc, char *argv[])
       printf ("Loi ghi file!\n");
       return 1;
     }
-
+  
+  printf("Crypto_box_ZEROBYTES = %ld\n " ,crypto_box_ZEROBYTES);
   while (mlen= fread(m+crypto_box_ZEROBYTES, 1, BUFSIZE, fp))
     {
       mlen += crypto_box_ZEROBYTES;
       crypto_box_afternm(c,m,mlen,nonce,k);
-      fwrite(c, 1, mlen, fpout);
-      sodium_increment(nonce, crypto_box_NONCEBYTES);
+      fwrite(c+crypto_box_BOXZEROBYTES, 1, mlen - crypto_box_BOXZEROBYTES, fpout);
+      sodium_increment(nonce, crypto_box_NONCEBYTES);  // Nen thay doi de khong phu thuoc vao sodium
     }
 
   fclose(fp);
   fclose (fpout);
 
-  
-  
   return 0;
 }
