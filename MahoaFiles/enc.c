@@ -77,7 +77,11 @@ int main(int argc, char *argv[])
   unsigned char k[crypto_box_BEFORENMBYTES];
 
   
-  crypto_box_beforenm(k, bobpk, alicesk);
+  if (crypto_box_beforenm(k, bobpk, alicesk))
+  {
+	  printf("Loi sinh khoa k\n");
+	  return 1;
+  }
 
   randombytes(nonce, crypto_box_NONCEBYTES);
   
@@ -97,11 +101,14 @@ int main(int argc, char *argv[])
       return 1;
     }
   
-  printf("Crypto_box_ZEROBYTES = %ld\n " ,crypto_box_ZEROBYTES);
-  while (mlen= fread(m+crypto_box_ZEROBYTES, 1, BUFSIZE, fp))
+	  while ((mlen= fread(m+crypto_box_ZEROBYTES, 1, BUFSIZE, fp)))
     {
       mlen += crypto_box_ZEROBYTES;
-      crypto_box_afternm(c,m,mlen,nonce,k);
+      if (crypto_box_afternm(c,m,mlen,nonce,k))
+	  {
+		  printf ("Loi ma hoa \n");
+		  return 1;
+	  }
       fwrite(c+crypto_box_BOXZEROBYTES, 1, mlen - crypto_box_BOXZEROBYTES, fpout);
       sodium_increment(nonce, crypto_box_NONCEBYTES);  // Nen thay doi de khong phu thuoc vao sodium
     }

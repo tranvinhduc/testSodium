@@ -48,7 +48,6 @@ int main(int argc, char *argv[])
     }
 
   FILE *fpout;
-  mpz_t integ;
   
   fpout =  fopen(argv[2], "w+");
   if (!fpout)
@@ -69,7 +68,7 @@ int main(int argc, char *argv[])
       printf ("Loi doc file!\n");
       return 1;
     }
-	long long alicepklen; 
+	unsigned long long alicepklen; 
 	if (crypto_sign_open(alicepk,&alicepklen,signatureAlicepk,32 + crypto_sign_BYTES,masterpk))
 	{
 		printf("Loi chu ky!\n");
@@ -83,12 +82,20 @@ int main(int argc, char *argv[])
       return 1;
     }
 
-    crypto_box_beforenm(k, alicepk, bobsk);
+    if (crypto_box_beforenm(k, alicepk, bobsk))
+	{
+		printf ("Loi khoa k!\n");
+		return 1;
+	}
 
-  while (clen= fread(c + crypto_box_BOXZEROBYTES, 1, BUFSIZE + crypto_box_ZEROBYTES - crypto_box_BOXZEROBYTES, fp))
+  while ((clen= fread(c + crypto_box_BOXZEROBYTES, 1, BUFSIZE + crypto_box_ZEROBYTES - crypto_box_BOXZEROBYTES, fp)))
     {
       clen += crypto_box_BOXZEROBYTES;
-      crypto_box_open_afternm(m,c,clen,nonce,k);
+      if (crypto_box_open_afternm(m,c,clen,nonce,k))
+	  {
+		  printf ("Loi open !\n");
+		  return 1;
+	  }
       fwrite(m+crypto_box_ZEROBYTES, 1, clen - crypto_box_ZEROBYTES, fpout);
       sodium_increment(nonce, crypto_box_NONCEBYTES);
     }
