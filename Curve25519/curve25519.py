@@ -1,3 +1,5 @@
+# Copy from 'Cryptography in NaCl'
+
 P = 2 ** 255 - 19
 A = 486662
 
@@ -14,16 +16,16 @@ def inv (x):
 # from Appendix D of "Curve25519:
 # New Diffie-Hellman speed records"
 
-def add (a, b, c):
-    xn,zn = a
-    xm,zm = b
-    xd,zd = c
+def add (xzn, xzm, xzd):       #???
+    xn,zn = xzn
+    xm,zm = xzm
+    xd,zd = xzd
     x = 4 * (xm * xn - zm * zn) ** 2 * zd
     z = 4 * (xm * zn - zm * xn) ** 2 * xd
     return (x % P, z % P)
 
-def double (a):
-    xn, zn = a
+def double (xzn):              #???
+    xn, zn = xzn
     x = (xn ** 2 - zn ** 2) ** 2
     z = 4 * xn * zn * (xn ** 2 + A * xn * zn + zn ** 2)
     return (x % P, z % P)
@@ -65,6 +67,8 @@ def crypto_scalarmult_curve25519 (n, p):
 def crypto_scalarmult_curve25519_base (n):
     n = clamp (unpack(n))
     return pack (curve25519(n,9))
+
+## Test 
 
 sk = [ 0x77,0x07,0x6d,0x0a,0x73,0x18,0xa5,0x7d
        ,0x3c,0x16,0xc1,0x72,0x51,0xb2,0x66,0x45
