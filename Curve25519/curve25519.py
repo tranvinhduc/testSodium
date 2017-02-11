@@ -1,4 +1,5 @@
 # Copy from 'Cryptography in NaCl'
+# Ref: Matthew Dempsky
 
 P = 2 ** 255 - 19
 A = 486662
@@ -13,10 +14,15 @@ def inv (x):
     return expmod (x, P - 2, P)
 
 # Addition and doubling formulas taken
-# from Appendix D of "Curve25519:
+# from Appendix B of "Curve25519:
 # New Diffie-Hellman speed records"
 
-def add (xzn, xzm, xzd):       #???
+# Output =   X(Q + Q')
+# Input =
+#       xzn <= X(Q)      = xn/zn
+#       xzm <= X(Q')     = xm/zm
+#       xzd <= X(Q - Q') = xd/zd
+def add (xzn, xzm, xzd):       # Ok: Theorem B.2.
     xn,zn = xzn
     xm,zm = xzm
     xd,zd = xzd
@@ -24,9 +30,11 @@ def add (xzn, xzm, xzd):       #???
     z = 4 * (xm * zn - zm * xn) ** 2 * xd
     return (x % P, z % P)
 
-def double (xzn):              #???
+# Output = X (2Q)
+# Input <=  X(Q) = xn/zn
+def double (xzn):              # Ok: Theorem B.1.
     xn, zn = xzn
-    x = (xn ** 2 - zn ** 2) ** 2
+    x = (xn ** 2 - zn ** 2) ** 2          
     z = 4 * xn * zn * (xn ** 2 + A * xn * zn + zn ** 2)
     return (x % P, z % P)
 
@@ -40,7 +48,8 @@ def curve25519 (n, base):
         if m == 1: return (one, two)
         (pm, pm1) = f(m // 2)
         if (m & 1):
-            return (add (pm, pm1, one), double (pm1))
+            return (add (pm, pm1, one), double (pm1))   # nQ     = (n/2Q + Q) + n/2Q = add (n/2Q + Q, n/2Q, Q) ; Q = base = one
+                                                        # nQ + Q = 2(n/2Q + Q)       = double (n/2Q + Q) 
         return (double(pm), add(pm, pm1, one))
     ((x,z), _) = f(n)
     return (x * inv(z)) % P

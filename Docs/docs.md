@@ -9,6 +9,7 @@
 * avrnacl-20130514.pdf : NaCl on 8-bit AVR Microcontrollers
 * span-20091204.pdf: Slides  NaCl  Networking and Cryptography library
 * slides-dan+tanja-20150117-4x3.pdf: NaCl: a new crypto library
+* 39580209.pdf = curve25519-20060209.pdf: Curve25519: new Diffie-Hellman speed records 
 * Key_Management_Protocol_with_I.pdf : Key Management Protocol with Implicit Certificates for IoT systems
 * libsodium.pdf : 
 * paper_arc14_curve25519.pdf: Efficient Elliptic-Curve Cryptography using Curve25519 on Reconfigurable Devices
