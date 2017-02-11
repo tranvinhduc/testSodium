@@ -13,3 +13,7 @@
 * Key_Management_Protocol_with_I.pdf : Key Management Protocol with Implicit Certificates for IoT systems
 * libsodium.pdf : 
 * paper_arc14_curve25519.pdf: Efficient Elliptic-Curve Cryptography using Curve25519 on Reconfigurable Devices
+* newelliptic-20070906.pdf: Faster addition and doubling on elliptic curves
+* 218.pdf:  Efficient arithmetic on elliptic curves using a mixed Edwards–Montgomery representation
+
+
