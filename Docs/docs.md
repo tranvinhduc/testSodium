@@ -16,4 +16,5 @@
 * newelliptic-20070906.pdf: Faster addition and doubling on elliptic curves
 * 218.pdf:  Efficient arithmetic on elliptic curves using a mixed Edwards–Montgomery representation
 
+* etr-cryptography-encryption.pdf: Cryptography  IN AN ALL ENCRYPTED WORLD
 
